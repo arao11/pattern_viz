@@ -32,7 +32,7 @@ if  [ "${1:-dev}" == "dev" ]; then
   echo "=== Run WebPack with development build"
   echo ""
 
-  webpack --config='webpack.config.dev.js' --progress --profile --colors
+  ./node_modules/.bin/webpack --config='webpack.config.dev.js' --progress --profile --colors
 
   # I haven't figured out how to both generate correct paths in the webpack HTML
   # template, and have the resulting index.html be put in the right folders.

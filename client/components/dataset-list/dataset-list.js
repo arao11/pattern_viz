@@ -653,7 +653,7 @@ class SearchDataSetViewComponent extends Component {
 								<h1><i>Search</i></h1>
 								<SearchField
 									label={'Search all metadata'}
-									tooltip={'Filter using fuzzy string matching on project, title or description'}
+									tooltip={'Filter using asdfasdf string matching on project, title or description'}
 									tooltipId={'allsearch-tltp'}
 									value={search.all}
 									onChange={searchAll}

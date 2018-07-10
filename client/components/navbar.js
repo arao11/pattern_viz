@@ -14,6 +14,14 @@ const navDataset = (
 	</LinkContainer>
 );
 
+const navDatasetCompare = (
+	<LinkContainer key='compare' to='/compare'>
+		<NavItem eventKey={'compare'}>
+			Compare Cell Scatterplot
+		</NavItem>
+	</LinkContainer>
+);
+
 // the dummy header is needed to ensure
 // the collapse menu behaves properly
 const dummyHeader = (
@@ -112,6 +120,10 @@ export class NavbarView extends Component {
 					<Nav>
 						{navDataset}
 						{navTitle}
+						{isViewingDataset ?
+							null :
+							navDatasetCompare
+						}
 						{viewLinks}
 					</Nav>
 				</Navbar.Collapse>
