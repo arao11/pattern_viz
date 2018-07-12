@@ -6,6 +6,8 @@ import { ScatterplotComponent } from 'components/scatterplot/scatterplot-view';
 import { ViewInitialiser } from 'components/view-initialiser';
 
 class LandscapeComponent extends Component {
+
+	//console.log(this.props.dataset);
 	render() {
 		return (
 			<ScatterplotComponent
@@ -23,6 +25,7 @@ LandscapeComponent.propTypes = {
 
 export class LandscapeViewInitialiser extends Component {
 	render() {
+		console.log('props');
 		return (
 			<ViewInitialiser
 				View={LandscapeComponent}

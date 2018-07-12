@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { LandscapeView } from './scatterplot/landscape-view';
-
-
 import './DropdownCSS.css';
 import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 
@@ -12,15 +9,12 @@ class Dropdown extends Component {
       return (
         <div className = 'Dropdown'>
           <ButtonToolbar>
-    <DropdownButton title="Default button" id="dropdown-size-medium">
-      <MenuItem eventKey="1">Action</MenuItem>
-      <MenuItem eventKey="2">Another action</MenuItem>
-      <MenuItem eventKey="3">Something else here</MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey="4">Separated link</MenuItem>
-    </DropdownButton>
-  </ButtonToolbar>
-
+            <DropdownButton title="Select Pattern" id="dropdown-size-medium">
+              <MenuItem eventKey="1">Pattern 1</MenuItem>
+              <MenuItem eventKey="2">Pattern 2</MenuItem>
+              <MenuItem eventKey="3">Pattern 3</MenuItem>
+            </DropdownButton>
+          </ButtonToolbar>
         </div>
       );
   }
