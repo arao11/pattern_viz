@@ -148,7 +148,8 @@ export class ViewInitialiser extends Component {
 				return (
 					<View
 						dispatch={dispatch}
-						dataset={datasets[path]} />
+						dataset={datasets[path]}
+						disableSidePanel={this.props.disableSidePanel} />
 				);
 		}
 		return '';
@@ -160,4 +161,5 @@ ViewInitialiser.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	View: PropTypes.func.isRequired,
 	datasets: PropTypes.object,
+	disableSidePanel: PropTypes.bool.isRequired,
 };

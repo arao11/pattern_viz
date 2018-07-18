@@ -173,6 +173,7 @@ export class ScatterPlotSidepanel extends Component {
 			axis,
 			className,
 			style,
+			showPanel
 		} = this.props;
 
 		const {
@@ -221,12 +222,13 @@ export class ScatterPlotSidepanel extends Component {
 				eventKey={'+'}
 				disabled={totalPlots >= 4} />
 		);
-		return (
+
+		const sidePanelShow = (
 			<FlexboxContainer
 				className={className}
 				style={style} >
 				<Tabs
-					className='sidepanel'
+					className={'sidepanel'}
 					key={`${axis}-settings`}
 					animation={false}
 					activeKey={selectedPlot}
@@ -235,6 +237,10 @@ export class ScatterPlotSidepanel extends Component {
 					{settingsTabs}
 				</Tabs>
 			</FlexboxContainer>
+		);
+
+		return (
+			<div>{sidePanelShow}</div>
 		);
 	}
 }

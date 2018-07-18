@@ -7,16 +7,24 @@ import { ScatterPlotSidepanel } from 'components/scatterplot/scatterplot-sidepan
 import { Remount } from 'components/remount';
 
 const viewStyle = {
-	overflowX: 'hidden',
+	overflowX: 'auto',
 	minHeight: 0,
 };
 
 const sidePanelStyle = {
-	overflowX: 'hidden',
-	overFlowY: 'hidden',
+	overflowX: 'auto',
+	overFlowY: 'auto',
 	minHeight: 0,
 	width: '300px',
 	margin: '10px',
+};
+
+const noSidePanelStyle = {
+	overflowX: 'auto',
+	overFlowY: 'auto',
+	minHeight: 0,
+	width: '0px',
+	margin: '0px',
 };
 
 export class ScatterplotComponent extends Component {
@@ -25,6 +33,7 @@ export class ScatterplotComponent extends Component {
 			dispatch,
 			dataset,
 			axis,
+			disableSidePanel,
 		} = this.props;
 		const {
 			ascendingIndices,
@@ -44,7 +53,7 @@ export class ScatterplotComponent extends Component {
 					dispatch={dispatch}
 					axis={axis}
 					viewState={dataset.viewState[axis]}
-					style={sidePanelStyle}
+					style={disableSidePanel ? noSidePanelStyle: sidePanelStyle}
 				/>
 				<Remount watchedVal={totalPlots} >
 					<ScatterPlotMatrix
@@ -67,4 +76,5 @@ ScatterplotComponent.propTypes = {
 	axis: PropTypes.string.isRequired,
 	dataset: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
+	disableSidePanel: PropTypes.bool.isRequired,
 };

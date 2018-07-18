@@ -13,7 +13,8 @@ class LandscapeComponent extends Component {
 			<ScatterplotComponent
 				axis='col'
 				dataset={this.props.dataset}
-				dispatch={this.props.dispatch} />
+				dispatch={this.props.dispatch}
+				disableSidePanel={this.props.disableSidePanel} />
 		);
 	}
 }
@@ -21,17 +22,18 @@ class LandscapeComponent extends Component {
 LandscapeComponent.propTypes = {
 	dataset: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
+	disableSidePanel: PropTypes.bool.isRequired,
 };
 
 export class LandscapeViewInitialiser extends Component {
 	render() {
-		console.log('props');
 		return (
 			<ViewInitialiser
 				View={LandscapeComponent}
 				dispatch={this.props.dispatch}
 				params={this.props.params}
-				datasets={this.props.datasets} />
+				datasets={this.props.datasets}
+				disableSidePanel={this.props.disableSidePanel} />
 		);
 	}
 }

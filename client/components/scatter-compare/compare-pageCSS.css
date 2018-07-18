@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+.graphs {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;

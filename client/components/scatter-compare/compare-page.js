@@ -12,6 +12,7 @@ import {
   Grid,
   Row,
   Col,
+  Button,
 } from 'react-bootstrap';
 
 //import { LinkContainer } from 'react-router-bootstrap';
@@ -19,7 +20,18 @@ import {
 export class ComparePage extends Component {
   constructor() {
     super()
+    this.state = {disableSourceSidePanel: true};
+
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  handleClick() {
+    this.setState(prevState => ({
+      disableSourceSidePanel: !prevState.disableSourceSidePanel
+    }));
+  }
+
+
   render() {
 
     //const project = 'test';
@@ -50,36 +62,37 @@ export class ComparePage extends Component {
       "test/L1L1_StriatumVentral.loom": {}
     }
 
-    return (
-        <Grid>
-          <Row>
-            <Col>
-              Source Dataset
-            </Col>
-            <br />
-            <Col>
-              Target Dataset
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <LandscapeView
-                dispatch={this.props.dispatch}
-        				params={paramsSource}
-        				datasets={datasetsSource} />
-            </Col>
-            <Col>
-              <Dropdown />
-            </Col>
+    const disableSourceSidePanel = true;
+    const disableTargetSidePanel = false;
 
-            <Col>
-              <LandscapeView
-                dispatch={this.props.dispatch}
-        				params={paramsTarget}
-        				datasets={datasetsTarget} />
-            </Col>
-          </Row>
-        </Grid>
+    return (
+      <div className='graphs'>
+        <LandscapeView
+            dispatch={this.props.dispatch}
+            params={paramsSource}
+            datasets={datasetsSource}
+            disableSidePanel={disableSourceSidePanel} />
+        <Dropdown />
+        <LandscapeView
+            dispatch={this.props.dispatch}
+            params={paramsTarget}
+            datasets={datasetsTarget}
+            disableSidePanel={disableTargetSidePanel} />
+      </div>
     );
   }
 }
+
+import { connect } from 'react-redux';
+
+// react-router-redux passes URL parameters
+// through ownProps.params. See also:
+// https://github.com/reactjs/react-router-redux#how-do-i-access-router-state-in-a-container-component
+const mapStateToProps = (state, ownProps) => {
+	return {
+		params: ownProps.params,
+		datasets: state.datasets.list,
+	};
+};
+
+export const compareScatterPage = connect(mapStateToProps)(ComparePage);
