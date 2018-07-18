@@ -15,22 +15,33 @@ import {
   Button,
 } from 'react-bootstrap';
 
-//import { LinkContainer } from 'react-router-bootstrap';
+const graphStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+};
 
 export class ComparePage extends Component {
-  constructor() {
-    super()
-    this.state = {disableSourceSidePanel: true};
+  constructor(props) {
+    super(props)
+    this.state = {disableSourceSidePanel: true,
+                  disableTargetSidePanel: true};
 
-    this.handleClick = this.handleClick.bind(this);
+    this.toggleSourceSidePanel = this.toggleSourceSidePanel.bind(this);
+    this.toggleTargetSidePanel = this.toggleTargetSidePanel.bind(this);
+
   }
 
-  handleClick() {
+  toggleSourceSidePanel() {
     this.setState(prevState => ({
       disableSourceSidePanel: !prevState.disableSourceSidePanel
     }));
   }
 
+  toggleTargetSidePanel() {
+    this.setState(prevState => ({
+      disableTargetSidePanel: !prevState.disableTargetSidePanel
+    }));
+  }
 
   render() {
 
@@ -59,25 +70,32 @@ export class ComparePage extends Component {
     }
 
     const datasetsTarget =  {
-      "test/L1L1_StriatumVentral.loom": {}
+      "test/L1_StriatumVentral.loom": {}
     }
-
-    const disableSourceSidePanel = true;
-    const disableTargetSidePanel = false;
 
     return (
       <div className='graphs'>
+        <ButtonToolbar>
+            <Button onClick={this.toggleSourceSidePanel}>
+              Show Side Panel
+            </Button>
+        </ButtonToolbar>
+        <ButtonToolbar>
+            <Button onClick={this.toggleTargetSidePanel}>
+              Show Side Panel
+            </Button>
+        </ButtonToolbar>
         <LandscapeView
             dispatch={this.props.dispatch}
             params={paramsSource}
             datasets={datasetsSource}
-            disableSidePanel={disableSourceSidePanel} />
+            disableSidePanel={this.state.disableSourceSidePanel} />
         <Dropdown />
         <LandscapeView
             dispatch={this.props.dispatch}
             params={paramsTarget}
             datasets={datasetsTarget}
-            disableSidePanel={disableTargetSidePanel} />
+            disableSidePanel={this.state.disableTargetSidePanel} />
       </div>
     );
   }
