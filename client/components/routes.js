@@ -21,7 +21,7 @@ import { LandscapeView } from './scatterplot/landscape-view';
 import { GenescapeView } from './scatterplot/genescape-view';
 import { GeneMetadataView } from './metadata/geneMD-view';
 import { CellMetadataView } from './metadata/cellMD-view';
-import { compareScatterPage } from './scatter-compare/compare-page';
+import { SelectFilePage } from './scatter-compare/select-file-page';
 
 // layout of the routes
 const Routes = (
@@ -30,7 +30,7 @@ const Routes = (
 			<Route name='home' component={NavbarView}
 				path='/'>
 				<IndexRoute component={DataSetList} />
-				<Route name='compare' component={compareScatterPage}
+				<Route name='compare' component={SelectFilePage}
 					path='/compare' />
 				<Route name='data-set-list' component={DataSetList}
 					path='/dataset' />

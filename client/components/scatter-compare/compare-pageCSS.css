@@ -9,7 +9,7 @@
 
 .buttons {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .App-logo {
