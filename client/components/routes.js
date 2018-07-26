@@ -22,6 +22,7 @@ import { GenescapeView } from './scatterplot/genescape-view';
 import { GeneMetadataView } from './metadata/geneMD-view';
 import { CellMetadataView } from './metadata/cellMD-view';
 import { SelectFilePage } from './scatter-compare/select-file-page';
+import { CompareScatterPage } from './scatter-compare/compare-page';
 
 // layout of the routes
 const Routes = (
@@ -32,6 +33,8 @@ const Routes = (
 				<IndexRoute component={DataSetList} />
 				<Route name='compare' component={SelectFilePage}
 					path='/compare' />
+				<Route name='select-file' component={SelectFilePage}
+					path='/select-file' />
 				<Route name='data-set-list' component={DataSetList}
 					path='/dataset' />
 				<Route name='data-set-heatmap' component={HeatmapView}

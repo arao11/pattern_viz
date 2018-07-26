@@ -4,7 +4,7 @@ import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 
 
 
-class Dropdown extends Component {
+class PatternSelector extends Component {
   render() {
       return (
         <div className = 'Dropdown'>
@@ -20,4 +20,4 @@ class Dropdown extends Component {
   }
 }
 
-export default Dropdown;
+export default PatternSelector;

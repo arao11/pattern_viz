@@ -1,60 +1,107 @@
 import React, { Component } from 'react';
-import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import { ButtonToolbar, DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-
+import ComparePage from './compare-page';
 
 export class SelectFile extends Component {
   constructor(props) {
     super(props)
-    this.state = {datasetsSource: '',
-                  datasetsTarget: ''};
+    this.state = {sourceButton: 'Select Source Dataset',
+                  targetButton: 'Select Target Dataset',
+                  hasSelectedFile: false,
+                  fileData: {
+                    projectSource: '',
+                    datasetSource: '',
+                    projectTarget: '',
+                    datasetTarget: ''
+                  }};
 
-    this.modifyFiles = this.modifyFiles.bind(this);
+    this.modifySource = this.modifySource.bind(this);
+    this.modifyTarget = this.modifyTarget.bind(this);
+    this.clearFiles = this.clearFiles.bind(this);
   }
 
-  modifyFiles(proj, datas, type,  e) {
-    if (type == 'source') {
-      datasetsSource: `${proj}/${datas}`
-    } else if (type == 'target') {
-      datasetsTarget: `${proj}/${datas}`
-    }
+  modifySource(proj, datas, e) {
+    let fileData = Object.assign({}, this.state.fileData);
+    fileData.projectSource = proj;
+    fileData.datasetSource = datas;
+    this.setState({fileData});
+    this.setState(prevState => ({
+      sourceButton: `${proj}/${datas}`
+    }));
+  }
+
+  modifyTarget(proj, datas, e) {
+    let fileData = Object.assign({}, this.state.fileData);
+    fileData.projectTarget = proj;
+    fileData.datasetTarget = datas;
+    this.setState({fileData});
+    this.setState(prevState => ({
+      targetButton: `${proj}/${datas}`
+    }));
+  }
+
+  clearFiles() {
+    this.setState(prevState => ({
+      fileData: {
+        projectSource: '',
+        datasetSource: '',
+        projectTarget: '',
+        datasetTarget: ''
+      },
+      sourceButton: 'Select Source Dataset',
+      targetButton: 'Select Target Dataset'
+    }));
   }
 
   render() {
-    const filesArray = Object.values(this.props.list);
+    const {
+      list,
+      dispatch
+    } = this.props;
 
-    console.log(filesArray);
+    const {
+      sourceButton,
+      targetButton,
+      fileData
+    } = this.state;
 
-    const files = filesArray.map((item) =>
+    const filesArray = Object.values(list);
+
+    const filesSource = filesArray.map((item) =>
     <MenuItem
-      onClick={(e) => this.modifyFiles(item.project, item.dataset, 'source', e)}>
+      onClick={(e) => this.modifySource(item.project, item.dataset, e)}>
       {item.dataset}
     </MenuItem>);
 
-    const paramsSource = {
-      project: "test",
-      filename: "L1_StriatumDorsal.loom",
-      viewStateURI: "NrBEoXQGmAGHgEYq2kqi3IExagZjwBYI0R4j4A7AVwBs6UMnt5FZ5gBOADidRhcu_UvxTQ2osJBgUKUbEx5pO6AekwwceQlqgkycKAFYotBk2TxWGDjCIiY~ERMeS0lM_UbPgRIgDswtjGAQBsARhExtEYASHCiGFEQiaI~GH6XNgOrDkKRDz48AGlfNhhiDyK2AH4yElcSQXGxshBdQoZxtawxjyROYjDcYhNGGE8fXEhmu5AA"
-    }
+    const filesTarget = filesArray.map((item) =>
+    <MenuItem
+      onClick={(e) => this.modifyTarget(item.project, item.dataset, e)}>
+      {item.dataset}
+    </MenuItem>);
 
-    const paramsTarget = {
-      project: "test",
-      filename: "L1_StriatumVentral.loom",
-      viewStateURI: "NrBEoXQGmAGHgEYq2kqi3IExagZjwBYI0R4j4A7AVwBs6UMnt5FZ5gBOAVidRhcAbP1L8U0NmLCQYFClGxMAHGk7oB6TDBx5COqCTJwofWgybJ4rDBxhFRMfKMmOpaSlHONnwIkQB2LkUeAKEAjCIeKIwA7B5gxCEiLmCeRHwRFOwHVhzFImV8eADS5UUhRGUlbAD8ZCSuJIKedKggusVMnmtYHmUInMRh2MQmjCFlPtj47XcgA"
+    if ((fileData.projectSource.length > 0) && (fileData.projectTarget.length > 0)) {
+      console.log(fileData);
+      return (
+        <ComparePage
+          data={fileData}
+          dispatch={this.props.dispatch}
+        />
+      );
     }
 
     return (
-      <div className = 'Dropdown'>
+      <div className = 'file-selection'>
         <ButtonToolbar>
-          <DropdownButton title="Select Source Dataset" id="dropdown-size-medium">
-            {files}
+          <DropdownButton title={sourceButton} id="dropdown-size-medium">
+            {filesSource}
           </DropdownButton>
-        </ButtonToolbar>
-
-        <ButtonToolbar>
-          <DropdownButton title="Select Target Dataset" id="dropdown-size-medium">
-            {files}
+          <DropdownButton title={targetButton} id="dropdown-size-medium">
+            {filesTarget}
           </DropdownButton>
+          <Button bsStyle='primary'>
+            Render
+          </Button>
         </ButtonToolbar>
       </div>
     );
