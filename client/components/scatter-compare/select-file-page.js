@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ButtonToolbar, DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ComparePage from './compare-page';
+import update from 'immutability-helper';
 
 export class SelectFile extends Component {
   constructor(props) {
@@ -9,49 +10,69 @@ export class SelectFile extends Component {
     this.state = {sourceButton: 'Select Source Dataset',
                   targetButton: 'Select Target Dataset',
                   hasSelectedFile: false,
-                  fileData: {
-                    projectSource: '',
-                    datasetSource: '',
-                    projectTarget: '',
-                    datasetTarget: ''
-                  }};
-
+                  fileDataSource: {
+                    project: null,
+                    dataset: null
+                  },
+                  fileDataTarget: {
+                    project: null,
+                    dataset: null
+                  }
+                };
     this.modifySource = this.modifySource.bind(this);
     this.modifyTarget = this.modifyTarget.bind(this);
     this.clearFiles = this.clearFiles.bind(this);
+    this.handleRender = this.handleRender.bind(this);
   }
 
-  modifySource(proj, datas, e) {
-    let fileData = Object.assign({}, this.state.fileData);
-    fileData.projectSource = proj;
-    fileData.datasetSource = datas;
-    this.setState({fileData});
-    this.setState(prevState => ({
+  componentDidMount () {
+    const persistState = localStorage.getItem('rootState');
+
+    if (persistState) {
+      try {
+        this.setState(JSON.parse(persistState));
+      } catch (e) {
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('rootState', JSON.stringify(this.state));
+  }
+
+  modifySource(proj, datas) {
+    this.setState({
+      fileDataSource: update(this.state.fileDataSource, {
+        project: {$set: proj},
+        dataset: {$set: datas}
+      }),
       sourceButton: `${proj}/${datas}`
-    }));
+    });
+
   }
 
-  modifyTarget(proj, datas, e) {
-    let fileData = Object.assign({}, this.state.fileData);
-    fileData.projectTarget = proj;
-    fileData.datasetTarget = datas;
-    this.setState({fileData});
-    this.setState(prevState => ({
+  modifyTarget(proj, datas) {
+    this.setState({
+      fileDataTarget: update(this.state.fileDataTarget, {
+        project: {$set: proj},
+        dataset: {$set: datas}
+      }),
       targetButton: `${proj}/${datas}`
-    }));
+    });
+
   }
 
   clearFiles() {
-    this.setState(prevState => ({
-      fileData: {
-        projectSource: '',
-        datasetSource: '',
-        projectTarget: '',
-        datasetTarget: ''
-      },
-      sourceButton: 'Select Source Dataset',
-      targetButton: 'Select Target Dataset'
-    }));
+    this.modifySource(null, null);
+    this.modifyTarget(null, null);
+  }
+
+  handleRender() {
+    if ((this.state.fileDataSource.project) && (this.state.fileDataTarget.project)) {
+      this.setState(prevState => ({
+        hasSelectedFile: true
+      }));
+    }
   }
 
   render() {
@@ -63,28 +84,31 @@ export class SelectFile extends Component {
     const {
       sourceButton,
       targetButton,
-      fileData
+      hasSelectedFile,
+      fileDataSource,
+      fileDataTarget,
+      disableButton
     } = this.state;
 
     const filesArray = Object.values(list);
 
     const filesSource = filesArray.map((item) =>
     <MenuItem
-      onClick={(e) => this.modifySource(item.project, item.dataset, e)}>
+      onClick={() => this.modifySource(item.project, item.dataset)}>
       {item.dataset}
     </MenuItem>);
 
     const filesTarget = filesArray.map((item) =>
     <MenuItem
-      onClick={(e) => this.modifyTarget(item.project, item.dataset, e)}>
+      onClick={() => this.modifyTarget(item.project, item.dataset)}>
       {item.dataset}
     </MenuItem>);
 
-    if ((fileData.projectSource.length > 0) && (fileData.projectTarget.length > 0)) {
-      console.log(fileData);
+    if (hasSelectedFile) {
       return (
         <ComparePage
-          data={fileData}
+          dataSource={fileDataSource}
+          dataTarget={fileDataTarget}
           dispatch={this.props.dispatch}
         />
       );
@@ -99,7 +123,10 @@ export class SelectFile extends Component {
           <DropdownButton title={targetButton} id="dropdown-size-medium">
             {filesTarget}
           </DropdownButton>
-          <Button bsStyle='primary'>
+          <Button
+            bsStyle='primary'
+            disabled={false}
+            onClick={this.handleRender}>
             Render
           </Button>
         </ButtonToolbar>

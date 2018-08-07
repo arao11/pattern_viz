@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ScatterDataset from './scatter-dataset';
 import { LandscapeView } from '../scatterplot/landscape-view';
-
-import './compare-pageCSS.css';
 
 import {
   ButtonToolbar,
-  DropdownButton,
-  MenuItem,
   Button,
+  DropdownButton,
+  MenuItem
 } from 'react-bootstrap';
 
 const graphStyle = {
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'row'
 };
+
+const buttonStyle = {
+  display: 'flex',
+  flexDirection: 'column'
+}
 
 export class ComparePage extends Component {
   constructor(props) {
@@ -40,39 +42,45 @@ export class ComparePage extends Component {
   }
   render() {
     const {
-      data,
+      dataSource,
+      dataTarget,
       dispatch
     } = this.props;
 
     const paramsSource = {
-      project: data.projectSource,
-      filename: data.datasetSource
+      project: dataSource.project,
+      filename: dataSource.dataset
     };
 
     const paramsTarget = {
-      project: data.projectTarget,
-      filename: data.datasetTarget
+      project: dataTarget.project,
+      filename: dataTarget.dataset
     };
 
-    const datasetsSource = `${data.projectSource}/${data.datasetSource}`;
+    const datasetsSource = `${dataSource.project}/${dataSource.dataset}`;
 
-    const datasetsTarget = `${data.projectTarget}/${data.projectTarget}`;
+    const datasetsTarget = `${dataTarget.project}/${dataTarget.dataset}`;
 
     return (
-        <div className='graphs'>
+        <div style={graphStyle}>
           <LandscapeView
               dispatch={dispatch}
               params={paramsSource}
               datasets={datasetsSource}
               disableSidePanel={this.state.disableSourceSidePanel}
           />
-          <ButtonToolbar className='buttons'>
+        <ButtonToolbar style={buttonStyle}>
             <Button onClick={this.toggleSourceSidePanel}>
               Show Source Side Panel
             </Button>
             <Button onClick={this.toggleTargetSidePanel}>
               Show Target Side Panel
             </Button>
+            <DropdownButton title="Select Pattern" id="dropdown-size-medium">
+              <MenuItem eventKey="1">Pattern 1</MenuItem>
+              <MenuItem eventKey="2">Pattern 2</MenuItem>
+              <MenuItem eventKey="3">Pattern 3</MenuItem>
+            </DropdownButton>
           </ButtonToolbar>
           <LandscapeView
               dispatch={dispatch}
@@ -89,6 +97,7 @@ export default ComparePage;
 
 ComparePage.propTypes = {
 	// Passed down by react-router
-	data: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
+	dataSource: PropTypes.object.isRequired,
+  dataTarget: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
