@@ -11,7 +11,9 @@ import {
 
 const graphStyle = {
   display: 'flex',
-  flexDirection: 'row'
+  flexDirection: 'row',
+  overflowX: 'auto',
+	minHeight: 0
 };
 
 const buttonStyle = {
@@ -69,7 +71,7 @@ export class ComparePage extends Component {
               datasets={datasetsSource}
               disableSidePanel={this.state.disableSourceSidePanel}
           />
-        <ButtonToolbar style={buttonStyle}>
+          <ButtonToolbar style={buttonStyle}>
             <Button onClick={this.toggleSourceSidePanel}>
               Show Source Side Panel
             </Button>

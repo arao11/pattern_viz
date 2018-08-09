@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import ComparePage from './compare-page';
 import update from 'immutability-helper';
 
+const graphStyle = {
+  display: 'flex',
+  flexDirection: 'row'
+};
+
 export class SelectFile extends Component {
   constructor(props) {
     super(props)
@@ -63,8 +68,20 @@ export class SelectFile extends Component {
   }
 
   clearFiles() {
-    this.modifySource(null, null);
-    this.modifyTarget(null, null);
+    localStorage.clear();
+    this.setState(prevState => ({
+      sourceButton: 'Select Source Dataset',
+      targetButton: 'Select Target Dataset',
+      hasSelectedFile: false,
+      fileDataSource: {
+        project: null,
+        dataset: null
+      },
+      fileDataTarget: {
+      project: null,
+      dataset: null
+      }
+    }));
   }
 
   handleRender() {
@@ -104,13 +121,32 @@ export class SelectFile extends Component {
       {item.dataset}
     </MenuItem>);
 
+    const returnButton = (
+      <ButtonToolbar>
+        <Button
+          bsStyle='primary'
+          onClick={this.clearFiles}>
+          Back to file Select
+        </Button>
+      </ButtonToolbar>
+    );
+
     if (hasSelectedFile) {
       return (
+      <React.Fragment>
+        <ButtonToolbar>
+          <Button
+            bsStyle='primary'
+            onClick={this.clearFiles}>
+            Back to file Select
+          </Button>
+        </ButtonToolbar>
         <ComparePage
           dataSource={fileDataSource}
           dataTarget={fileDataTarget}
           dispatch={this.props.dispatch}
         />
+      </React.Fragment>
       );
     }
 
