@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { ButtonToolbar, DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ComparePage from './compare-page';
 import update from 'immutability-helper';
 
-const graphStyle = {
-  display: 'flex',
-  flexDirection: 'row'
+import {
+  ButtonToolbar,
+  DropdownButton,
+  MenuItem,
+  Button,
+  ButtonGroup
+} from 'react-bootstrap';
+
+const pageStyle = {
+  margin: '0 auto',
+
 };
 
 export class SelectFile extends Component {
@@ -37,6 +44,7 @@ export class SelectFile extends Component {
       try {
         this.setState(JSON.parse(persistState));
       } catch (e) {
+
       }
     }
   }
@@ -78,8 +86,8 @@ export class SelectFile extends Component {
         dataset: null
       },
       fileDataTarget: {
-      project: null,
-      dataset: null
+        project: null,
+        dataset: null
       }
     }));
   }
@@ -151,20 +159,24 @@ export class SelectFile extends Component {
     }
 
     return (
-      <div className = 'file-selection'>
+      <div style={pageStyle} className='file-selection'>
         <ButtonToolbar>
-          <DropdownButton title={sourceButton} id="dropdown-size-medium">
-            {filesSource}
-          </DropdownButton>
-          <DropdownButton title={targetButton} id="dropdown-size-medium">
-            {filesTarget}
-          </DropdownButton>
-          <Button
-            bsStyle='primary'
-            disabled={false}
-            onClick={this.handleRender}>
-            Render
-          </Button>
+          <ButtonGroup>
+            <DropdownButton title={sourceButton} id="dropdown-size-medium">
+              {filesSource}
+            </DropdownButton>
+            <DropdownButton title={targetButton} id="dropdown-size-medium">
+              {filesTarget}
+            </DropdownButton>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              bsStyle='primary'
+              disabled={false}
+              onClick={this.handleRender}>
+              Render
+            </Button>
+          </ButtonGroup>
         </ButtonToolbar>
       </div>
     );

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LandscapeView } from '../scatterplot/landscape-view';
-
+import PatternSelector from './pattern-selector';
 import {
   ButtonToolbar,
   Button,
   DropdownButton,
-  MenuItem
+  MenuItem,
+  ButtonGroup
 } from 'react-bootstrap';
 
 const graphStyle = {
   display: 'flex',
   flexDirection: 'row',
-  overflowX: 'auto',
-	minHeight: 0
 };
 
 const buttonStyle = {
@@ -63,34 +62,32 @@ export class ComparePage extends Component {
 
     const datasetsTarget = `${dataTarget.project}/${dataTarget.dataset}`;
 
+    const patternsTemp = ['Pattern 1', 'Pattern 2', 'Pattern 3'];
+
     return (
-        <div style={graphStyle}>
-          <LandscapeView
-              dispatch={dispatch}
-              params={paramsSource}
-              datasets={datasetsSource}
-              disableSidePanel={this.state.disableSourceSidePanel}
-          />
-          <ButtonToolbar style={buttonStyle}>
-            <Button onClick={this.toggleSourceSidePanel}>
-              Show Source Side Panel
-            </Button>
-            <Button onClick={this.toggleTargetSidePanel}>
-              Show Target Side Panel
-            </Button>
-            <DropdownButton title="Select Pattern" id="dropdown-size-medium">
-              <MenuItem eventKey="1">Pattern 1</MenuItem>
-              <MenuItem eventKey="2">Pattern 2</MenuItem>
-              <MenuItem eventKey="3">Pattern 3</MenuItem>
-            </DropdownButton>
-          </ButtonToolbar>
-          <LandscapeView
-              dispatch={dispatch}
-              params={paramsTarget}
-              datasets={datasetsTarget}
-              disableSidePanel={this.state.disableTargetSidePanel}
-          />
-        </div>
+      <div style={graphStyle}>
+        <LandscapeView
+            dispatch={dispatch}
+            params={paramsSource}
+            datasets={datasetsSource}
+            disableSidePanel={this.state.disableSourceSidePanel}
+        />
+        <ButtonGroup vertical>
+          <Button onClick={this.toggleSourceSidePanel}>
+            Show Source Side Panel
+          </Button>
+          <Button onClick={this.toggleTargetSidePanel}>
+            Show Target Side Panel
+          </Button>
+          <PatternSelector patterns={patternsTemp}/>
+        </ButtonGroup>
+        <LandscapeView
+            dispatch={dispatch}
+            params={paramsTarget}
+            datasets={datasetsTarget}
+            disableSidePanel={this.state.disableTargetSidePanel}
+        />
+      </div>
     );
   }
 }
