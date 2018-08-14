@@ -30,6 +30,20 @@ export class ComparePage extends Component {
     this.toggleTargetSidePanel = this.toggleTargetSidePanel.bind(this);
   }
 
+  componentDidMount() {
+    const oldState = localStorage.getItem('rs');
+    if (oldState) {
+      try {
+        this.setState(JSON.parse(oldState));
+      } catch(e) {
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('rs', JSON.stringify(this.state));
+  }
+
   toggleSourceSidePanel() {
     this.setState(prevState => ({
       disableSourceSidePanel: !prevState.disableSourceSidePanel
@@ -82,10 +96,10 @@ export class ComparePage extends Component {
           <PatternSelector patterns={patternsTemp}/>
         </ButtonGroup>
         <LandscapeView
-            dispatch={dispatch}
-            params={paramsTarget}
-            datasets={datasetsTarget}
-            disableSidePanel={this.state.disableTargetSidePanel}
+          dispatch={dispatch}
+          params={paramsTarget}
+          datasets={datasetsTarget}
+          disableSidePanel={this.state.disableTargetSidePanel}
         />
       </div>
     );

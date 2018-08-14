@@ -13,7 +13,6 @@ import {
 
 const pageStyle = {
   margin: '0 auto',
-
 };
 
 export class SelectFile extends Component {
@@ -37,14 +36,13 @@ export class SelectFile extends Component {
     this.handleRender = this.handleRender.bind(this);
   }
 
-  componentDidMount () {
-    const persistState = localStorage.getItem('rootState');
+  componentDidMount() {
+    const oldState = localStorage.getItem('rootState');
 
-    if (persistState) {
+    if (oldState) {
       try {
-        this.setState(JSON.parse(persistState));
-      } catch (e) {
-
+        this.setState(JSON.parse(oldState));
+      } catch(e) {
       }
     }
   }
@@ -162,10 +160,10 @@ export class SelectFile extends Component {
       <div style={pageStyle} className='file-selection'>
         <ButtonToolbar>
           <ButtonGroup>
-            <DropdownButton title={sourceButton} id="dropdown-size-medium">
+            <DropdownButton title={sourceButton} id='dropdown-size-medium'>
               {filesSource}
             </DropdownButton>
-            <DropdownButton title={targetButton} id="dropdown-size-medium">
+            <DropdownButton title={targetButton} id='dropdown-size-medium'>
               {filesTarget}
             </DropdownButton>
           </ButtonGroup>

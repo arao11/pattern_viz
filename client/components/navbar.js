@@ -17,7 +17,7 @@ const navDataset = (
 const navDatasetCompare = (
 	<LinkContainer key='compare' to='/compare'>
 		<NavItem eventKey={'compare'}>
-			Compare Cell Scatterplot
+			Compare Cell Scatterplots
 		</NavItem>
 	</LinkContainer>
 );
